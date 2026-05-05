@@ -26,9 +26,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-
       - name: Run tests
-      env:
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        PORT: ${{ vars.PORT }}
-      run: npm test
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          PORT: ${{ vars.PORT }}
+        run: npm test
