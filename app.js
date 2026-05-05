@@ -2,17 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
+const middlewareError = require ('./errors/error');
 
 const app = express();
 app.use(express.json());
 
-const contatoRouter = require('./rotas/contatosRotas');
+const contatoRouter = require('./routes/contatoRoutes');
 app.use('/contatos', contatoRouter);
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+app.use(middlewareError);
+
+//mongoose.connect(process.env.MONGODB_URI, {
+//  useNewUrlParser: true,
+//  useUnifiedTopology: true,
+// });
+
+mongoose.connect(process.env.MONGODB_URI);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB:'));
@@ -24,3 +29,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+module.exports=app;
+
